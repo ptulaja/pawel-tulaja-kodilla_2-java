@@ -18,11 +18,11 @@ public final class EmployeeAndCompanyFacade {
     @Autowired
     private CompanyDao companyDao;
 
-    public List<Employee> retrieveEmployeeLastname(String lastname){
-        return employeeDao.retrieveEmployeeLastname("%" + lastname + "%");
+    public List<Company> retrieveCompanyWithPartName(String partName) {
+        return companyDao.retrieveCompanyWithPartName(partName);
     }
 
-    public List<Company> retrieveCompanyNameFirstLetters(String name){
-        return companyDao.retrieveCompanyNameFirstLetters("%" + name + "%");
+    public List<Employee> retrieveEmployeeWithPartLastname(String partLastName) {
+        return employeeDao.retrieveEmployeeWithPartLastName(partLastName);
     }
 }

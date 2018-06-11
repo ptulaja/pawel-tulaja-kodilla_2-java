@@ -1,9 +1,9 @@
 package com.kodilla.patterns2.facade;
 
-import com.kodilla.patterns2.facade.API.ItemDto;
-import com.kodilla.patterns2.facade.API.OrderDto;
-import com.kodilla.patterns2.facade.API.OrderFacade;
-import com.kodilla.patterns2.facade.API.OrderProcessingException;
+import com.kodilla.patterns2.facade.api.ItemDto;
+import com.kodilla.patterns2.facade.api.OrderDto;
+import com.kodilla.patterns2.facade.api.OrderFacade;
+import com.kodilla.patterns2.facade.api.OrderProcessingException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

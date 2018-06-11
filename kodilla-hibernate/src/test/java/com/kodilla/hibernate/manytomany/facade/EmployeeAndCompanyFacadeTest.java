@@ -18,62 +18,71 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EmployeeAndCompanyFacadeTest {
-    @Autowired
-    private EmployeeDao employeeDao;
-
-    @Autowired
-    private CompanyDao companyDao;
 
     @Autowired
     private EmployeeAndCompanyFacade employeeAndCompanyFacade;
+    @Autowired
+    private CompanyDao companyDao;
 
     @Test
-    public void retrieveEmployeeLastname() {
+    public void testFacade() {
+
         //Given
         Employee johnSmith = new Employee("John", "Smith");
         Employee stephanieClarckson = new Employee("Stephanie", "Clarckson");
         Employee lindaKovalsky = new Employee("Linda", "Kovalsky");
+        Employee paulSmitho =new Employee("Paul", "Smitho");
 
-        employeeDao.save(johnSmith);
-        int employeeOneId = johnSmith.getId();
-        employeeDao.save(stephanieClarckson);
-        int employeeTwoId = stephanieClarckson.getId();
-        employeeDao.save(lindaKovalsky);
-        int employeeThreeId = lindaKovalsky.getId();
-
-        //when
-        List<Employee> showLastname = employeeAndCompanyFacade.retrieveEmployeeLastname("Kov");
-
-        //Then
-        Assert.assertEquals("Kovalsky", showLastname.get(0).getLastname());
-        Assert.assertEquals(1, showLastname.size());
-
-        //cleanUp
-        employeeDao.deleteAll();
-    }
-
-    @Test
-    public void retrieveCompanyNameFirstLetters() {
-        //Given
-        Company softwareMachinee = new Company("Software Machine");
+        Company softwareMachine = new Company("Software Machine");
         Company dataMaesters = new Company("Data Maesters");
         Company greyMatter = new Company("Grey Matter");
+        Company greyoMaster = new Company("Greyo Master");
 
-        companyDao.save(softwareMachinee);
-        int companyOneId = softwareMachinee.getId();
+        softwareMachine.getEmployees().add(johnSmith);
+        softwareMachine.getEmployees().add(paulSmitho);
+        dataMaesters.getEmployees().add(stephanieClarckson);
+        dataMaesters.getEmployees().add(lindaKovalsky);
+        greyMatter.getEmployees().add(johnSmith);
+        greyMatter.getEmployees().add(lindaKovalsky);
+        greyoMaster.getEmployees().add(paulSmitho);
+
+
+        johnSmith.getCompanies().add(softwareMachine);
+        johnSmith.getCompanies().add(greyMatter);
+        stephanieClarckson.getCompanies().add(dataMaesters);
+        lindaKovalsky.getCompanies().add(dataMaesters);
+        lindaKovalsky.getCompanies().add(greyMatter);
+        paulSmitho.getCompanies().add(greyoMaster);
+        paulSmitho.getCompanies().add(softwareMachine);
+
+        companyDao.save(softwareMachine);
+        int softwareMachineId = softwareMachine.getId();
         companyDao.save(dataMaesters);
-        int companyTwoId = dataMaesters.getId();
+        int dataMaestersId = dataMaesters.getId();
         companyDao.save(greyMatter);
-        int companyThreeId = greyMatter.getId();
+        int greyMatterId = greyMatter.getId();
+        companyDao.save(greyoMaster);
+        int greyoMasterId=greyoMaster.getId();
 
         //When
-        List<Company> showCompanyName = employeeAndCompanyFacade.retrieveCompanyNameFirstLetters("Dat%");
+        List<Employee> employees= employeeAndCompanyFacade.retrieveEmployeeWithPartLastname("sky");
+        List<Company> companies= employeeAndCompanyFacade.retrieveCompanyWithPartName("oft");
 
         //Then
-        Assert.assertEquals("Data Maesters", showCompanyName.get(1).getName());
-        Assert.assertEquals(38, showCompanyName.size());
+        Assert.assertEquals(1, employees.size());
+        Assert.assertEquals("Kovalsky", employees.get(0).getLastname());
 
-        //cleanUp
-        companyDao.deleteAll();
+        Assert.assertEquals(1, companies.size());
+        Assert.assertEquals("Software Machine", companies.get(0).getName());
+
+        //CleanUp
+        try {
+            companyDao.delete(softwareMachineId);
+            companyDao.delete(dataMaestersId);
+            companyDao.delete(greyMatterId);
+            companyDao.delete(greyoMasterId);
+        } catch (Exception e) {
+            //do nothing
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.kodilla.patterns2.facade.API;
+package com.kodilla.patterns2.facade.aop;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class OrderWatcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderWatcher.class);
 
-    @Before("execution(* com.kodilla.patterns2.facade.API.OrderFacade.processOrder(..))")
+    @Before("execution(* com.kodilla.patterns2.facade.api.OrderFacade.processOrder(..))")
     public void logEvent(){
         LOGGER.info("The order is processing");
     }

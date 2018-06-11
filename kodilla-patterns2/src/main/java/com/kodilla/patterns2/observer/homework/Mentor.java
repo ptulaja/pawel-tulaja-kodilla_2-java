@@ -1,4 +1,4 @@
-package com.kodilla.patterns2.Observer.Homework;
+package com.kodilla.patterns2.observer.homework;
 
 public class Mentor implements Observer {
     private final String username;
